@@ -1,25 +1,30 @@
-import { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
-import { Menu, Select } from "antd";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, Outlet, useLocation } from "react-router-dom";
+import { Menu, Select, Dropdown, Space, Button } from "antd";
 import type { MenuProps } from "antd";
 import React from "react";
 import less from "less";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
+import shared from "../../../utils";
 
 type MenuItem = Required<MenuProps>["items"][number];
 interface ILayoutProps {}
 
 const Layout: React.FC<ILayoutProps> = (props) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const dispatch = useDispatch();
 
   const {
     theme: { primaryTheme },
+    shared,
   } = useSelector((state: RootState) => {
     return state;
   });
+
+  const { sharedState } = shared;
 
   useEffect(() => {
     setMenuItems([
@@ -28,8 +33,10 @@ const Layout: React.FC<ILayoutProps> = (props) => {
       { label: "React Application B", key: "REACT_B" },
       { label: "Vue Application", key: "VUE" },
       { label: "Components Application", key: "COMPONENTS" },
+      // { label: "User Management", key: "USERMANAGEMENT" },
     ]);
   }, []);
+
   const handleMenuClick: MenuProps["onClick"] = (e) => {
     switch (e.key) {
       case "MANAGEMENT":
@@ -46,6 +53,9 @@ const Layout: React.FC<ILayoutProps> = (props) => {
         break;
       case "COMPONENTS":
         navigate("/components");
+        break;
+      case "USERMANAGEMENT":
+        navigate("/user");
         break;
       default:
         navigate("/");
@@ -86,43 +96,97 @@ const Layout: React.FC<ILayoutProps> = (props) => {
         "@menu-font-color": fontTheme,
       })
       .then(() => {
-        console.log("修改成功");
+        console.log("Change theme success.");
       });
   }, [primaryTheme]);
+
+  const handleUserInfoClick = () => {
+    navigate("/user/info");
+  };
+
+  const handleLoginOutClick = () => {
+    dispatch({
+      type: "shared/setShared",
+      payload: {
+        token: null,
+      },
+    });
+  };
+
+  const items: MenuProps["items"] = [
+    {
+      key: "INFO",
+      label: <Button onClick={handleUserInfoClick}>User Info</Button>,
+    },
+    {
+      key: "LOGINOUT",
+      label: <Button onClick={handleLoginOutClick}>Logout</Button>,
+    },
+  ];
+
+  useEffect(() => {
+    if (!sharedState.token) {
+      navigate("/user/login");
+    }
+  }, [sharedState.token]);
+
+  const renderUserInfo = useMemo(() => {
+    if (!sharedState.token) {
+      return "None User";
+    } else {
+      return <>{sharedState.token.username}</>;
+    }
+  }, [sharedState]);
+
+  const renderContent = () => {
+    if (sharedState.token) {
+      return (
+        <div className="flex flex-row">
+          <Menu
+            defaultSelectedKeys={["1"]}
+            defaultOpenKeys={["sub1"]}
+            mode="vertical"
+            theme="light"
+            onClick={handleMenuClick}
+            items={menuItems}
+            className="justify-around bg-gray-300 menu-bg-color  min-h-screen"
+          />
+          <div className="flex-grow text-center justify-items-center mt-8">
+            <Outlet />
+          </div>
+        </div>
+      );
+    }
+
+    return <Outlet />;
+  };
 
   return (
     <div>
       <div>
-        <div className="absolute top-1.5 ml-1.5 menu-bg-color">
-          切换主题
-          <Select
-            defaultValue={["NORMAL"]}
-            value={[primaryTheme]}
-            options={[
-              { label: "Normal", value: "NORMAL" },
-              { label: "Dark", value: "DARK" },
-              { label: "Light", value: "LIGHT" },
-            ]}
-            className="ml-1.5"
-            onChange={handleChangeTheme}
-          />
-        </div>
-        <Menu
-          defaultSelectedKeys={["1"]}
-          defaultOpenKeys={["sub1"]}
-          mode="horizontal"
-          theme="light"
-          onClick={handleMenuClick}
-          items={menuItems}
-          className="justify-around bg-gray-300 menu-bg-color"
-        />
-      </div>
-      <div className="flex flex-row">
-        <div className="w-52 bg-gray-300 min-h-screen menu-bg-color"></div>
-        <div className="flex-grow text-center justify-items-center mt-8">
-          <Outlet />
+        <div className="top-1.5 menu-bg-color flex flex-row justify-between h-12 leading-10 px-5">
+          <div>
+            切换主题
+            <Select
+              defaultValue={["NORMAL"]}
+              value={[primaryTheme]}
+              options={[
+                { label: "Normal", value: "NORMAL" },
+                { label: "Dark", value: "DARK" },
+                { label: "Light", value: "LIGHT" },
+              ]}
+              className="ml-1.5"
+              onChange={handleChangeTheme}
+            />
+          </div>
+          <div>
+            <Dropdown menu={{ items }} placement="bottomLeft">
+              <div>{renderUserInfo}</div>
+            </Dropdown>
+          </div>
         </div>
       </div>
+      {renderContent()}
     </div>
   );
 };

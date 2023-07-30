@@ -5,6 +5,7 @@ const Application_React_A = lazy(() => import('./components/Application_React_A'
 const Application_React_B =  lazy(() => import('./components/Application_React_B'))
 const Application_Vue  = lazy(() => import('./components/Application_Vue'))
 const Application_Components = lazy(() => import('./components/Application_Components'))
+const Application_Login = lazy(() => import('./components/Application_Login'))
 // const CounterAppOne = React.lazy(() => import("app1/CounterAppOne"));
  
 export const routers = [
@@ -33,6 +34,10 @@ export const routers = [
       {
         path: 'components/*',
         element: <Application_Components />,  
+      },
+      {
+        path: 'user/*',
+        element: <Application_Login />,  
       }
     ],
   },

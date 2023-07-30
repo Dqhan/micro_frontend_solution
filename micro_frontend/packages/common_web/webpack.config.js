@@ -130,6 +130,7 @@ var baseConfigs = {
         'application_react_b': 'application_react_b@http://localhost:9529/remoteEntry.js',
         'application_vue': 'application_vue@http://localhost:9530/remoteEntry.js',
         'application_components': 'application_components@http://localhost:9555/remoteEntry.js',
+        'application_login': 'application_login@http://localhost:9533/remoteEntry.js',
       },
       shared: {
         ...deps,

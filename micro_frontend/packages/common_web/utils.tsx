@@ -1,22 +1,20 @@
 import { store } from "./store";
 
 let computedSharedChangeCallback = (state: any) => {
-  console.log('none function')
-}
+  console.log("none function");
+};
 
 const computedSharedChange = (callback: (state: any) => void) => {
   computedSharedChangeCallback = callback;
 };
 
+let prefixCls = "";
+
 class Shared {
-  constructor () {
-    store.subscribe(() => { 
-      computedSharedChangeCallback(store.getState())
-    });    
-  }
-  public getShared(): any {
-    const state = store.getState();
-    return state.shared;
+  constructor() {
+    store.subscribe(() => {
+      computedSharedChangeCallback(store.getState());
+    });
   }
 
   public setShared(value: string): void {
@@ -26,8 +24,13 @@ class Shared {
     });
   }
 
-  public onSharedChange = computedSharedChange;
+  public getShared(): any {
+    const state = store.getState();
+    const { sharedState } = state.shared;
+    return sharedState;
+  }
 
+  public onSharedChange = computedSharedChange;
 }
 
 const shared = new Shared();

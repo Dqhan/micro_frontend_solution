@@ -5,34 +5,22 @@ import Error from "./pages/error";
 import React, { useEffect, useState } from "react";
 import "../styles/index.scss";
 import { ConfigProvider } from "antd";
-import { store, persistor } from "../store";
-import { PersistGate } from "redux-persist/integration/react";
-import { Provider } from "react-redux";
 
 const App = (props) => {
   const { router, prefixCls, shared } = props;
-  const [sharedState, setSharedState] = useState();
-
+  
   useEffect(() => {
     shared.onSharedChange((state) => {
-      setSharedState(state)
+
     });
   }, []);
 
-  useEffect(() => {
-
-  }, [sharedState])
-
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <ConfigProvider prefixCls={`${prefixCls}`}>
-          <React.Suspense fallback={<div>Loading...</div>}>
-            <RouterProvider router={router} fallbackElement={<Error />} />
-          </React.Suspense>
-        </ConfigProvider>
-      </PersistGate>
-    </Provider>
+    <ConfigProvider prefixCls={`${prefixCls}`}>
+      <React.Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={router} fallbackElement={<Error />} />
+      </React.Suspense>
+    </ConfigProvider>
   );
 };
 
