@@ -3,7 +3,8 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { Menu } from "antd";
 import React from "react";
 import styles from "../../../styles/index.scss";
-const Layout = () => {
+const Layout = (props) => {
+  const { children } = props;
   const navigate = useNavigate();
   const [menuItems, setMenuItems] = useState([]);
 
@@ -43,9 +44,7 @@ const Layout = () => {
         theme="dark"
         items={menuItems}
       />
-      <div>
-        <Outlet />
-      </div>
+      <div>{children}</div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import { mount  } from "application_react_a/bootstrap";
+import { mount } from "application_react_a/bootstrap";
 import React, { useRef, useEffect } from "react";
-import shared from "../../utils";
+import Shared from "../../utils";
 
 export default () => {
   const ref = useRef(null);
@@ -9,7 +9,7 @@ export default () => {
     mount(ref.current, {
       basePath: "/react-app-a",
       prefixCls: "app-a",
-      shared,
+      shared: new Shared("react-app-a"),
     });
   }, []);
 

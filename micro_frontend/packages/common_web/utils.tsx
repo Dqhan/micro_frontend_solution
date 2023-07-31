@@ -8,31 +8,37 @@ const computedSharedChange = (callback: (state: any) => void) => {
   computedSharedChangeCallback = callback;
 };
 
-let prefixCls = "";
-
 class Shared {
-  constructor() {
+  constructor(namespace: string) {
+    this.namespace = namespace;
+    store.dispatch({
+      type: "shared/setShared",
+      payload: {
+        [namespace]: {},
+      },
+    });
     store.subscribe(() => {
       computedSharedChangeCallback(store.getState());
     });
   }
 
+  private namespace = "common";
+
   public setShared(value: string): void {
     store.dispatch({
       type: "shared/setShared",
-      payload: value,
+      payload: {
+        [this.namespace]: value,
+      },
     });
   }
 
   public getShared(): any {
     const state = store.getState();
-    const { sharedState } = state.shared;
-    return sharedState;
+    return state.shared;
   }
 
   public onSharedChange = computedSharedChange;
 }
 
-const shared = new Shared();
-
-export default shared;
+export default Shared;

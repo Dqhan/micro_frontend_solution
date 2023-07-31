@@ -1,34 +1,42 @@
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { excuteRouter } from "./routers";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Error from "./pages/error";
-import React, { useEffect, useState } from "react";
-import "../styles/index.scss";
+import React from "react";
 import { ConfigProvider } from "antd";
 import { store, persistor } from "../store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
+import Layout from "./pages/layout";
+import PageA from "./pages/page_a";
+import PageB from "./pages/page_b";
+import PageC from "./pages/page_c";
+import Home from "./pages/home";
+import { useComputedSharedHook } from "../hooks";
+import "../styles/index.scss";
 
 const App = (props) => {
-  const { router, prefixCls, shared } = props;
-  const [sharedState, setSharedState] = useState();
-
-  useEffect(() => {
-    shared.onSharedChange((state) => {
-      setSharedState(state)
-    });
-  }, []);
-
-  useEffect(() => {
-
-  }, [sharedState])
-
+  const { prefixCls, basePath, shared } = props;
+  const { state, setShared } = useComputedSharedHook(shared);
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <ConfigProvider prefixCls={`${prefixCls}`}>
           <React.Suspense fallback={<div>Loading...</div>}>
-            <RouterProvider router={router} fallbackElement={<Error />} />
+            <BrowserRouter basename={basePath}>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Navigate to="home" />} />
+                  <Route path="home" element={<Home shared={shared} />} />
+                  <Route
+                    path="page_a"
+                    element={<PageA state={state} setShared={setShared} />}
+                  />
+                  <Route path="page_b" element={<PageB />} />
+                  <Route path="page_c" element={<PageC />} />
+                  <Route path="*" element={<Error />} />
+                </Routes>
+              </Layout>
+            </BrowserRouter>
           </React.Suspense>
         </ConfigProvider>
       </PersistGate>
@@ -37,12 +45,10 @@ const App = (props) => {
 };
 
 const mount = (el, { basePath, prefixCls, shared }) => {
-  const router = createBrowserRouter(excuteRouter(shared), {
-    basename: basePath,
-  });
-
   const root = createRoot(el);
-  root.render(<App router={router} prefixCls={prefixCls} shared={shared} />);
+  root.render(
+    <App prefixCls={prefixCls} shared={shared} basePath={basePath} />
+  );
 };
 
 const unmount = (el) => {};

@@ -3,7 +3,8 @@ import { useNavigate, Outlet } from "react-router-dom";
 import { Menu } from "antd";
 import React from "react";
 
-const Layout = () => {
+const Layout = (props) => {
+  const { children } = props;
   const navigate = useNavigate();
   const [menuItems, setMenuItems] = useState([]);
 
@@ -47,9 +48,7 @@ const Layout = () => {
             items={menuItems}
           />
         </div>
-        <div>
-          <Outlet />
-        </div>
+        <div>{children}</div>
       </div>
     </div>
   );

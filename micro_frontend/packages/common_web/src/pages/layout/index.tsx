@@ -24,7 +24,8 @@ const Layout: React.FC<ILayoutProps> = (props) => {
     return state;
   });
 
-  const { sharedState } = shared;
+  const { token } = shared;
+  console.log('token', token)
 
   useEffect(() => {
     setMenuItems([
@@ -125,21 +126,21 @@ const Layout: React.FC<ILayoutProps> = (props) => {
   ];
 
   useEffect(() => {
-    if (!sharedState.token) {
+    if (!token) {
       navigate("/user/login");
     }
-  }, [sharedState.token]);
+  }, [token]);
 
   const renderUserInfo = useMemo(() => {
-    if (!sharedState.token) {
+    if (!token) {
       return "None User";
     } else {
-      return <>{sharedState.token.username}</>;
+      return <>{token.username}</>;
     }
-  }, [sharedState]);
+  }, [token]);
 
   const renderContent = () => {
-    if (sharedState.token) {
+    if (token) {
       return (
         <div className="flex flex-row">
           <Menu
