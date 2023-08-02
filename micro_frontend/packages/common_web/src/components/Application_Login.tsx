@@ -4,7 +4,6 @@ import Shared from "../../utils";
 
 export default () => {
   const ref = useRef(null);
-  console.log('1', 1)
   useEffect(() => {
     mount(ref.current, {
       basePath: "/user",

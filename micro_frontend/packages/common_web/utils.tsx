@@ -11,14 +11,12 @@ const computedSharedChange = (callback: (state: any) => void) => {
 class Shared {
   constructor(namespace: string) {
     this.namespace = namespace;
-    store.dispatch({
-      type: "shared/setShared",
-      payload: {
-        [namespace]: {},
-      },
-    });
+
+   /**
+   * 实时监听，配合子应用页面响应刷新
+   */
     store.subscribe(() => {
-      computedSharedChangeCallback(store.getState());
+      computedSharedChangeCallback(this.getShared());
     });
   }
 
@@ -33,9 +31,12 @@ class Shared {
     });
   }
 
+  /**
+   * 获取数据不参与子应用页面响应刷新
+   */
   public getShared(): any {
-    const state = store.getState();
-    return state.shared;
+    const sharedState = store.getState()?.shared;
+    return sharedState;
   }
 
   public onSharedChange = computedSharedChange;

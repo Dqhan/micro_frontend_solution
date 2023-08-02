@@ -1,6 +1,3 @@
-import { reduceTheme } from './themeReducer';
-import { reduceShared } from './sharedReducer';
-
-export const themeReducer = reduceTheme;
-
-export const sharedReducer = reduceShared;
+export { actionReducer } from "./actionReducer";
+export { themeReducer } from "./themeReducer";
+export { sharedReducer } from "./sharedReducer";

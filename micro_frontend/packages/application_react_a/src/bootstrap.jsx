@@ -11,12 +11,11 @@ import PageA from "./pages/page_a";
 import PageB from "./pages/page_b";
 import PageC from "./pages/page_c";
 import Home from "./pages/home";
-import { useComputedSharedHook } from "../hooks";
 import "../styles/index.scss";
 
 const App = (props) => {
   const { prefixCls, basePath, shared } = props;
-  const { state, setShared } = useComputedSharedHook(shared);
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
@@ -26,13 +25,10 @@ const App = (props) => {
               <Layout>
                 <Routes>
                   <Route path="/" element={<Navigate to="home" />} />
-                  <Route path="home" element={<Home shared={shared} />} />
-                  <Route
-                    path="page_a"
-                    element={<PageA state={state} setShared={setShared} />}
-                  />
-                  <Route path="page_b" element={<PageB />} />
-                  <Route path="page_c" element={<PageC />} />
+                  <Route path="home" element={<Home />} />
+                  <Route path="page_a" element={<PageA shared={shared} />} />
+                  <Route path="page_b" element={<PageB shared={shared} />} />
+                  <Route path="page_c" element={<PageC shared={shared}  />} />
                   <Route path="*" element={<Error />} />
                 </Routes>
               </Layout>

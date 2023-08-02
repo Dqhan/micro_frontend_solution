@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import Management from './pages/management';
+import Top from './pages/top';
 import Layout from './pages/layout';
 const Application_React_A = lazy(() => import('./components/Application_React_A'))
 const Application_React_B =  lazy(() => import('./components/Application_React_B'))
@@ -16,8 +16,8 @@ export const routers = [
      </>,
     children: [
       {
-        path: 'management',
-        element: <Management />,  
+        path: '/',
+        element: <Top />,  
       },
       {
         path: 'react-app-a/*',

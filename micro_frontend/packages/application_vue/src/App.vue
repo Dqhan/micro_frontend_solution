@@ -1,61 +1,38 @@
 <template>
-    <div id="app">
-      <div id="nav">
-        <RouterLink to="/"></RouterLink>
-      </div>
-      <RouterView :sharedData="sharedData" />
-    </div>
-  </template>
+  <div id="app">
+    Application Vue
+    <div>来自React Application A的数据共享</div>
+    <div></div>
+  </div>
+</template>
   
-  <script>
-  import { onMounted, watch } from '@vue/runtime-core'
-  import { useRouter, useRoute } from 'vue-router'
-  export default {
-    name: 'App',
-    components: {},
-    props: {
-      onNavigate: {
-        type: Function,
-      },
-      basePath: {
-        type: String,
-        default: '/',
-      },
-      currentPath: {
-        type: String,
-        default: '/',
-      },
-      isMemoryHistory: {
-        type: Boolean,
-        default: false,
-      },
-      sharedData: {
-        type: Object,
-        default: () => ({}),
-      },
+<script>
+import { onMounted } from '@vue/runtime-core'
+export default {
+  name: 'App',
+  components: {},
+  props: {
+    basePath: {
+      type: String,
+      default: '/',
     },
-    setup(props) {
-      const { basePath, currentPath, isMemoryHistory, onNavigate } = props
-      const router = useRouter()
-      const route = useRoute()
-  
-      function onRouteChange(newPath) {
-        onNavigate && onNavigate(basePath + newPath)
-      }
-  
-      watch(() => route.path, onRouteChange)
-  
-      onMounted(() => {
-        let nextPath = currentPath
-        if (currentPath.startsWith(basePath)) {
-          nextPath = currentPath.replace(basePath, '') ?? '/'
-        }
-        isMemoryHistory && router.push(nextPath)
-      })
-  
-      return {}
+    shared: {
+      type: Object,
+      default: () => ({}),
     },
-  }
-  </script>
+  },
+  setup(props) {  
+    const { shared } = props
+    console.log('shared.getShared()', shared.getShared()?.['react-app-a'])
+    const { different } = shared.getShared()?.['react-app-a']
+    onMounted(() => {
+
+    })
+
+    return {}
+  },
+}
+</script>
+
   
   

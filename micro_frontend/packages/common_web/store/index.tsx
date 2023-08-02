@@ -1,6 +1,8 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { themeReducer } from "./reducer";
 import { sharedReducer } from "./reducer";
+import { actionReducer } from "./reducer";
+
 
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -23,12 +25,20 @@ const sharedPersistConf = {
   blacklist: [],
 };
 
+const actionPersistConf = {
+  key: "action",
+  storage,
+  blacklist: [],
+};
+
 const persistThemeReducer = persistReducer(themePersistConf, themeReducer);
 const persistSharedReducer = persistReducer(sharedPersistConf, sharedReducer);
+const persistActionReducer = persistReducer(actionPersistConf, actionReducer);
 
 const rootReducer = combineReducers({
-  theme: persistThemeReducer,
+  themeState: persistThemeReducer,
   shared: persistSharedReducer,
+  actionState: persistActionReducer
 });
 
 const rootPresistReducer = persistReducer(rootPersistConfig, rootReducer);

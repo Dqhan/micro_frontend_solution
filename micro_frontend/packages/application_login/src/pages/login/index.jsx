@@ -8,18 +8,12 @@ const LOGIN = (props) => {
   const { shared } = props;
   const [form] = Form.useForm();
 
-  console.log('shared', shared)
-
   const handleLogin = async () => {
     const values = await form.getFieldsValue();
     shared.setShared({
       token: values,
-    }); 
+    });
     navigate(-1);
-  };
-
-  const handleRegisterClick = () => {
-    // navigate("/");
   };
 
   return (
@@ -45,12 +39,6 @@ const LOGIN = (props) => {
         </Row>
         <Row>
           <Button onClick={handleLogin}>Login</Button>
-        </Row>
-        <div className={styles.message}>
-          If you have no account, please click register a account.
-        </div>
-        <Row>
-          <Button onClick={handleRegisterClick}>Register</Button>
         </Row>
       </Form>
     </div>

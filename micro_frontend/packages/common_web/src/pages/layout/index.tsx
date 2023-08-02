@@ -6,42 +6,44 @@ import React from "react";
 import less from "less";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
-import shared from "../../../utils";
 
 type MenuItem = Required<MenuProps>["items"][number];
 interface ILayoutProps {}
 
 const Layout: React.FC<ILayoutProps> = (props) => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const dispatch = useDispatch();
 
   const {
-    theme: { primaryTheme },
+    themeState: { primaryTheme },
+    actionState,
     shared,
   } = useSelector((state: RootState) => {
     return state;
   });
 
-  const { token } = shared;
-  console.log('token', token)
+  const { token } = shared?.["user-management"] || {};
+  const { action } = actionState || {};
 
   useEffect(() => {
     setMenuItems([
-      { label: "Management", key: "MANAGEMENT" },
+      { label: "Top", key: "TOP" },
       { label: "React Application A", key: "REACT_A" },
       { label: "React Application B", key: "REACT_B" },
       { label: "Vue Application", key: "VUE" },
       { label: "Components Application", key: "COMPONENTS" },
-      // { label: "User Management", key: "USERMANAGEMENT" },
     ]);
   }, []);
 
   const handleMenuClick: MenuProps["onClick"] = (e) => {
+    dispatch({
+      type: "action/setAction",
+      payload: e.key,
+    });
     switch (e.key) {
-      case "MANAGEMENT":
-        navigate("/management");
+      case "TOP":
+        navigate("/");
         break;
       case "REACT_A":
         navigate("/react-app-a");
@@ -109,7 +111,9 @@ const Layout: React.FC<ILayoutProps> = (props) => {
     dispatch({
       type: "shared/setShared",
       payload: {
-        token: null,
+        "user-management": {
+          token: null,
+        },
       },
     });
   };
@@ -144,8 +148,8 @@ const Layout: React.FC<ILayoutProps> = (props) => {
       return (
         <div className="flex flex-row">
           <Menu
-            defaultSelectedKeys={["1"]}
-            defaultOpenKeys={["sub1"]}
+            defaultSelectedKeys={["TOP"]}
+            selectedKeys={[action]}
             mode="vertical"
             theme="light"
             onClick={handleMenuClick}

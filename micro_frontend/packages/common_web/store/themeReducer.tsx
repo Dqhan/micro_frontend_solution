@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
-  primaryTheme: '#ddd',
+  primaryTheme: 'NORMAL',
 };
 
 export const themeSlice = createSlice({
@@ -15,4 +15,4 @@ export const themeSlice = createSlice({
   },
 });
 
-export const reduceTheme = themeSlice.reducer;
+export const themeReducer = themeSlice.reducer;

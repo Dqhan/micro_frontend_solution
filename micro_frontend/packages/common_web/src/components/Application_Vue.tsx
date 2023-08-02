@@ -1,24 +1,15 @@
 import { mount } from "application_vue/bootstrap";
 import React, { useRef, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import Shared from "../../utils";
 
 export default () => {
   const ref = useRef(null);
-  const navigate = useNavigate();
-  const location = useLocation();
   useEffect(() => {
-    const { onParentNavigate } = mount(ref.current, {
-      isMemoryHistory: true,
+    mount(ref.current, {
       basePath: "/vue-app",
-      currentPath: location.pathname,
-      onNavigate: (nextPathname) => {
-        const { pathname } = location;
-        if (pathname !== nextPathname) {
-          navigate(nextPathname);
-        }
-      },
+      prefixCls: "vue-app",
+      shared: new Shared("vue-app"),
     });
-    navigate(onParentNavigate);
   }, []);
 
   return <div ref={ref} />;
