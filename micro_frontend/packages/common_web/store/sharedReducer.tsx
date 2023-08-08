@@ -9,7 +9,10 @@ export const sharedSlice = createSlice({
   reducers: {
     setShared: (state: any, action: PayloadAction<Record<string, any>>) => {
       for (var i in action.payload) {
-        state[i] = action.payload[i];
+        state[i] = {
+          ...state[i],
+          ...action.payload[i],
+        };
       }
     },
   },

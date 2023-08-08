@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Select } from "antd";
-import md from "../../documents/select.md";
+import md from "../../../documents/select.md";
 
 const CustomSelect = () => {
   useEffect(() => {

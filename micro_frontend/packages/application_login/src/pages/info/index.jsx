@@ -6,7 +6,7 @@ const INfO = (props) => {
   const { shared } = props;
 
   useEffect(() => {
-    const { token } = shared.getShared();
+    const { token } = shared.getShared("user-management");
     const { username, password } = token || {};
     form.setFieldsValue({
       username,

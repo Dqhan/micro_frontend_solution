@@ -12,9 +12,9 @@ class Shared {
   constructor(namespace: string) {
     this.namespace = namespace;
 
-   /**
-   * 实时监听，配合子应用页面响应刷新
-   */
+    /**
+     * 实时监听，配合子应用页面响应刷新
+     */
     store.subscribe(() => {
       computedSharedChangeCallback(this.getShared());
     });
@@ -34,8 +34,13 @@ class Shared {
   /**
    * 获取数据不参与子应用页面响应刷新
    */
-  public getShared(): any {
-    const sharedState = store.getState()?.shared;
+  public getShared(namespace?: string): any {
+    let sharedState;
+    if (namespace) {
+      sharedState = store.getState()?.shared?.[namespace];
+    } else {
+      sharedState = store.getState()?.shared;
+    }
     return sharedState;
   }
 

@@ -5,6 +5,7 @@ var { CleanWebpackPlugin } = require("clean-webpack-plugin");
 var ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const packageJson = require("../package.json");
 
 const babelLoader = {
   test: /\.(js|jsx|ts|tsx)$/,
@@ -45,7 +46,8 @@ module.exports = {
             loader: "css-loader",
             options: {
               modules: {
-                localIdentName: 'app_b_[local]_[hash:base64:5]', 
+                localIdentHashSalt: packageJson.name,
+                localIdentName: '[local]_[hash:base64:5]', 
               },
             },
           },

@@ -12,7 +12,7 @@ const Layout = () => {
     setMenuItems([
       { label: "Home", key: "HOME" },
       { label: "Input Component", key: "INPUT" },
-      { label: "Select Component", key: "SELECT" },
+      // { label: "Select Component", key: "SELECT" },
     ]);
   }, []);
   const handleMenuClick = (e) => {
@@ -34,7 +34,6 @@ const Layout = () => {
 
   return (
     <div>
-      <div>Components Document</div>
       <div className={styles.layout}>
         <div>
           <Menu

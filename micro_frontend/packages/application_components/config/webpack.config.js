@@ -1,10 +1,11 @@
 var webpack = require("webpack"),
   path = require("path"),
-  HtmlWebpackPlugin = require("html-webpack-plugin")
+  HtmlWebpackPlugin = require("html-webpack-plugin");
 var { CleanWebpackPlugin } = require("clean-webpack-plugin");
 var ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const packageJson = require("../package.json");
 
 const babelLoader = {
   test: /\.(js|jsx|ts|tsx)$/,
@@ -42,7 +43,7 @@ module.exports = {
             loader: "css-loader",
             options: {
               modules: {
-                localIdentName: "app_a_[local]_[hash:base64:5]",
+                localIdentName: "components_[local]_[hash:base64:5]",
               },
             },
           },
@@ -83,10 +84,27 @@ module.exports = {
       cache: false,
     }),
     new ModuleFederationPlugin({
-      name: "application_components",
+      name: "component_library",
       filename: "remoteEntry.js",
       exposes: {
+        "./library": path.join(__dirname, "..", "src", "library/index.jsx"),
+        "./Input": path.join(
+          __dirname,
+          "..",
+          "src",
+          "library/InputComponent/index.jsx"
+        ),
         "./bootstrap": path.join(__dirname, "..", "src", "bootstrap.jsx"),
+      },
+      shared: {
+        react: {
+          version: "^18.2.0",
+          singleton: true,
+        },
+        "react-dom": {
+          version: "^18.2.0",
+          singleton: true,
+        },
       },
     }),
     new MiniCssExtractPlugin(),

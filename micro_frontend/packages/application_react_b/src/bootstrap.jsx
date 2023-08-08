@@ -6,14 +6,14 @@ import Layout from "./pages/layout";
 import PageA from "./pages/page_a";
 import PageB from "./pages/page_b";
 import Home from "./pages/home";
-import { ConfigProvider } from "antd";
+// import { ConfigProvider } from "antd";
 import "../styles/index.scss";
 
 const App = (props) => {
   const { prefixCls, shared, basePath } = props;
 
   return (
-    <ConfigProvider prefixCls={`${prefixCls}`}>
+    // <ConfigProvider prefixCls={`${prefixCls}`}>
       <React.Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter basename={basePath}>
           <Layout>
@@ -27,7 +27,7 @@ const App = (props) => {
           </Layout>
         </BrowserRouter>
       </React.Suspense>
-    </ConfigProvider>
+    // </ConfigProvider>
   );
 };
 
@@ -40,7 +40,7 @@ const mount = (el, { basePath, prefixCls, shared }) => {
 
 const unmount = (el) => {};
 
-const el = document.getElementById("application-react-a-root");
+const el = document.getElementById("application-react-b-root");
 el &&
   mount(el, {
     basePath: "/",

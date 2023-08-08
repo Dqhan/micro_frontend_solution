@@ -4,7 +4,7 @@ import styles from '../../../styles/index.scss'
 
 const PageA = (props) => {
   const { shared } = props;
-  const { shareCount } = shared.getShared()?.['react-app-a'];
+  const { shareCount } = shared.getShared('react-app-a')
   const [count, setCount] = useState(shareCount || 0);
 
   useEffect(() => {

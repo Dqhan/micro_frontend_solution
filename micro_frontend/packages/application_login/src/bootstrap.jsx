@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Error from "./pages/error";
 import React from "react";
 import "../styles/index.scss";
-import { ConfigProvider } from "antd";
+// import { ConfigProvider } from "antd";
 import LOGIN from "./pages/login";
 
 import INFO from "./pages/info";
@@ -12,7 +12,7 @@ const App = (props) => {
   const { prefixCls, basePath, shared } = props;
 
   return (
-    <ConfigProvider prefixCls={`${prefixCls}`}>
+    // <ConfigProvider prefixCls={`${prefixCls}`}>
       <React.Suspense fallback={<div>Loading...</div>}>
         <BrowserRouter basename={basePath}>
           <Routes path="/" element={<Navigator to="login" />}>
@@ -22,7 +22,7 @@ const App = (props) => {
           </Routes>
         </BrowserRouter>
       </React.Suspense>
-    </ConfigProvider>
+    // </ConfigProvider>
   );
 };
 

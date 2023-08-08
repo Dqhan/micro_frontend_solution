@@ -1,8 +1,8 @@
 import React from "react";
 import Layout from "./pages/layout";
 import Home from "./pages/home";
-import CustomInput from "./components/CustomInput";
-import CustomSelect from "./components/CustomSelect";
+import CustomInput from "./pages/input";
+import CustomSelect from "./pages/select";
 
 export const routers = [
   {

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Input } from "antd";
-import md from "../../documents/input.md";
+import InputComponent from "../../library/InputComponent";
+import md from "../../../documents/input.md";
 
-const CustomInput = () => {
+const Input = () => {
   useEffect(() => {
     document.getElementById(
       "application-components-input-component"
@@ -11,10 +11,11 @@ const CustomInput = () => {
 
   return (
     <div>
-      <Input style={{ width: "200px" }} />
+      <div>组件展示</div>
+      <InputComponent />
       <div id="application-components-input-component"></div>
     </div>
   );
 };
 
-export default CustomInput;
+export default Input;

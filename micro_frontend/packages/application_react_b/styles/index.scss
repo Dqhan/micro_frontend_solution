@@ -1,6 +1,4 @@
 .layout{
-    display: flex;
-    flex-direction: row;
     min-height: 100vh
 }
 .home{
@@ -12,4 +10,10 @@
     font-weight: bold;
     font-size: large;
     margin: 30px;
+}
+.center{
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

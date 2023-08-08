@@ -1,10 +1,11 @@
 var webpack = require("webpack"),
   path = require("path"),
-  HtmlWebpackPlugin = require("html-webpack-plugin")
+  HtmlWebpackPlugin = require("html-webpack-plugin");
 var { CleanWebpackPlugin } = require("clean-webpack-plugin");
 var ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const { ModuleFederationPlugin } = require("webpack").container;
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const packageJson = require("../package.json");
 
 const babelLoader = {
   test: /\.(js|jsx|ts|tsx)$/,
@@ -38,16 +39,14 @@ module.exports = {
         test: /\.(css|scss)$/,
         use: [
           MiniCssExtractPlugin.loader,
-          // {
-          //   loader: "style-loader",
-          // },
           {
             loader: "css-loader",
             options: {
               modules: {
-                localIdentName: 'app_a_[local]_[hash:base64:5]', 
+                localIdentHashSalt: packageJson.name,
+                localIdentName: "[local]_[hash:base64:5]",
               },
-            }
+            },
           },
           {
             loader: "sass-loader",
@@ -80,8 +79,20 @@ module.exports = {
       exposes: {
         "./bootstrap": path.join(__dirname, "..", "src", "bootstrap.jsx"),
       },
+      remotes: {
+        component_library:
+          "component_library@http://localhost:9555/remoteEntry.js",
+      },
+      // shared: packageJson.dependencies,
+      shared: {
+        react: {
+          version: "^18.2.0",
+          singleton: true,
+        },
+        "react-dom": { version: "^18.2.0", singleton: true },
+      },
     }),
-    new MiniCssExtractPlugin()
+    new MiniCssExtractPlugin(),
   ],
   infrastructureLogging: {
     level: "info",

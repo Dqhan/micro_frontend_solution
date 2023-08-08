@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Menu } from "antd";
 import React from "react";
+import styles from "../../../styles/index.scss";
 
 const Layout = (props) => {
   const { children } = props;
@@ -14,6 +15,7 @@ const Layout = (props) => {
       { label: "Module A", key: "MODULE_A" },
       { label: "Module B", key: "MODULE_B" },
       { label: "Module C", key: "MODULE_C" },
+      { label: "Module D", key: "MODULE_D" },
     ]);
   }, []);
   const handleMenuClick = (e) => {
@@ -29,6 +31,9 @@ const Layout = (props) => {
         break;
       case "MODULE_C":
         navigate("/page_c");
+        break;
+      case "MODULE_D":
+        navigate("/page_d");
         break;
       default:
         navigate("/");
@@ -48,7 +53,7 @@ const Layout = (props) => {
             items={menuItems}
           />
         </div>
-        <div>{children}</div>
+        <div className={styles.center}>{children}</div>
       </div>
     </div>
   );

@@ -15,7 +15,6 @@ const Layout = (props) => {
         key: "HOME",
       },
       { label: "Module 1", key: "MODULE_A" },
-      { label: "Module 2", key: "MODULE_B" },
     ]);
   }, []);
   const handleMenuClick = (e) => {
@@ -38,13 +37,13 @@ const Layout = (props) => {
   return (
     <div className={styles.layout}>
       <Menu
-        mode="vertical"
+        mode="horizontal"
         defaultSelectedKeys={["HOME"]}
         onClick={handleMenuClick}
-        theme="dark"
+        theme="light"
         items={menuItems}
       />
-      <div>{children}</div>
+      <div className={styles.center}>{children}</div>
     </div>
   );
 };
